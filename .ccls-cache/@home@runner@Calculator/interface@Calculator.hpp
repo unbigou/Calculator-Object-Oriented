@@ -6,7 +6,7 @@ enum Operator {SUM, SUBTRACTION, DIVISION, MULTIPLICATION, SQUARE_ROOT, PERCENTA
 enum Control {EQUAL, DECIMAL_SEPARATOR, ON_CLEAR_ERROR, OFF, MEMORY_READ_CLEAR, MEMORY_SUM, MEMORY_SUBTRACTION};
 
 typedef char const* Symbol;
-
+ 
 class Display
 {
     public:
