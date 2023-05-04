@@ -47,24 +47,11 @@ class TestCalculator2: public TestCalculatorBase
 };
 
 
-class TestCalculatorSmart: public TestCalculatorBase
-{
-	private:
-    	std::vector<Symbol []>;
-		Symbol* tests;
-	public:
-		TestCalculatorSmart(Calculator*, Symbol* tests, int testsCount);
-		void run();
-		Symbol getName();
-};
-
 /** Definição de testes estruturados 
 ---------------------------------------------*/
 Calculator* buildCalculator();
 
 void test1(Calculator*);
 void test2(Calculator*);
-void test3(Calculator*);
-void test4(Calculator*);
 
 void mainTest();

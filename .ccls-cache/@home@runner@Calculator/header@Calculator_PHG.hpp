@@ -9,6 +9,8 @@ class Calculator_PHG: public Calculator
         Display* display;
         Keyboard* keyboard;
     public:
+		~Calculator_PHG();
+
         void setCPU(CPU*);
         void setDisplay(Display*);
         void setKeyboard(Keyboard*);

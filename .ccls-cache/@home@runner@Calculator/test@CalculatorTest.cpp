@@ -21,7 +21,7 @@ void TestCalculatorBase::setup()
 void TestCalculatorBase::tearDown() 
 {
 	calculator-> getKeyboard()-> get(OFF)-> press();
-	std::cout << "TEST ENDED" << std::endl;
+	std::cout << "\nTEST ENDED" << std::endl;
 }
 
 
@@ -33,16 +33,13 @@ TestCalculator1::TestCalculator1(Calculator *calculator) : TestCalculatorBase(ca
 
 void TestCalculator1::setup() 
 {
-	printf("Test Calculator1 -");
-	this-> TestCalculatorBase::setup();
-	this-> calculator-> getKeyboard()-> get("0")-> press();
-	printf("* Test Calculator");
+	
 }
 
 
 void TestCalculator1::run() 
 {
-	Symbol test[] = {"1", "2", "3", "+", "4", "5", "6", "=", "=", "=", "="};
+	Symbol test[] = {"1", "+", "2", "="};
 	for(Symbol s : test)
 	{
 		calculator-> getKeyboard()-> get(s)-> press();
@@ -79,51 +76,19 @@ const char* TestCalculator2::getName()
 }
 
 
-TestCalculatorSmart::TestCalculatorSmart(Calculator* calculator, Symbol tests[], int testsCount) : TestCalculatorBase(calculator) 
-{
-	this-> tests = tests;
-}
-
-
-void TestCalculatorSmart::run() 
-{
-	Symbol test[] = {"1", "2", "3", "+", "4", "5", "6", "=", "=", "=", "="};
-	for(Symbol s : test)
-	{
-		calculator-> getKeyboard()-> get(s)-> press();	
-	}
-}
-
-
-char const *TestCalculatorSmart::getName() {
-  return " Testando 123 + 456 = = = = 1947\n";
-}
-
-
 void test1(Calculator* calculator) 
 {
 	calculator-> getKeyboard()-> get(ONE)-> 	press();
-	printf("one ");
 	calculator-> getKeyboard()-> get(TWO)-> 	press();
-	printf("two ");
 	calculator-> getKeyboard()-> get(THREE)-> 	press();
-	printf("three ");
 	calculator-> getKeyboard()-> get(SUM)-> 	press();
-	printf("+ ");
 	calculator-> getKeyboard()-> get(FOUR)-> 	press();
-	printf("four ");
 	calculator-> getKeyboard()-> get(FIVE)-> 	press();
-	printf("five ");
 	calculator-> getKeyboard()-> get(SIX)-> 	press();
-	printf("six ");
 	calculator-> getKeyboard()-> get(EQUAL)-> 	press();
-	printf("= ");
 	calculator-> getKeyboard()-> get(EQUAL)-> 	press();
-	printf("= ");
 	calculator-> getKeyboard()-> get(EQUAL)-> 	press();
-	printf("= ");
 	calculator-> getKeyboard()-> get(EQUAL)-> 	press();
-	printf("= ");
 }
 
 
@@ -135,28 +100,6 @@ void test2(Calculator* calculator)
 	calculator-> getKeyboard()-> get(DECIMAL_SEPARATOR)-> 	press();
 	calculator-> getKeyboard()-> get(ONE)->               	press();
 	calculator-> getKeyboard()-> get(EQUAL)->             	press();
-}
-
-
-void test3(Calculator* calculator) 
-{
-	calculator-> getKeyboard()-> get(DECIMAL_SEPARATOR)->	press();
-	calculator-> getKeyboard()-> get(ONE)->					press();
-	calculator-> getKeyboard()-> get(SUM)->					press();
-	calculator-> getKeyboard()-> get(DECIMAL_SEPARATOR)->	press();
-	calculator-> getKeyboard()-> get(ONE)->					press();
-	calculator-> getKeyboard()-> get(EQUAL)->				press();
-}
-
-
-void test4(Calculator* calculator) 
-{
-	calculator-> getKeyboard()-> get(DECIMAL_SEPARATOR)->	press();
-	calculator-> getKeyboard()-> get(ONE)->					press();
-	calculator-> getKeyboard()-> get(SUM)->					press();
-	calculator-> getKeyboard()-> get(DECIMAL_SEPARATOR)->	press();
-	calculator-> getKeyboard()-> get(ONE)->					press();
-	calculator-> getKeyboard()-> get(EQUAL)->				press();
 }
 
 
@@ -236,7 +179,8 @@ Calculator* buildCalculator()
   calculator-> setDisplay(display);
   calculator-> setCPU(cpu);
   calculator-> setKeyboard(keyboard);
-
+	
+	
   return calculator;
 }
 
@@ -264,38 +208,6 @@ void mainTest()
 			{
 				std::cout << "ERROR: " << e.getMessage();
 			}
-		}
-
-		std::cout << "Inicializing teste1..." << std::endl;
-		calculator-> getKeyboard()-> get(ON_CLEAR_ERROR)-> press();
-		test1(calculator);
-		
-		std::cout << "Inicializing teste2..." << std::endl;
-		calculator-> getKeyboard()-> get(ON_CLEAR_ERROR)-> press();
-		test2(calculator);
-		
-		std::cout << "Inicializing teste3..." << std::endl;
-		calculator-> getKeyboard()-> get(ON_CLEAR_ERROR)-> press();
-		test3(calculator);
-		
-		std::cout << "Inicializing teste4..." << std::endl;
-		calculator-> getKeyboard()-> get(ON_CLEAR_ERROR)-> press();
-		test4(calculator);
-
-		std::function<void(Calculator *)> calculatorTests_[] = { &test1, &test2, &test3, &test4 };
-		try 
-		{
-		  	int i = 0;
-		  	for (std::function<void(Calculator *)> test : calculatorTests_) 
-			{
-				std::cout << "Inicializing teste..." << i++ << std::endl;
-				calculator-> getKeyboard()-> get(ON_CLEAR_ERROR)-> press();
-				test(calculator);
-			}
-		} 
-		catch (CalculatorError &e) 
-		{
-			std::cout << "ERROR: " << e.getMessage();
 		}
 		
 		delete calculator;

@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <iostream>
 #include "../header/CPU_PHG.hpp"
 
 Digit numbers[10] = {ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE};
@@ -57,11 +58,11 @@ float toFloat(Digit* value, int quantity, int separator, Signal signal)
 {
 	float converted = 0;
 	
-	for(int i = 0; i < quantity; i++)
+	for(int i = quantity - 1; i >= 0; i--)
 	{
-		converted += value[i] * pow(i, 10);
+		converted += value[i] * pow(10, i);
 	}
-	converted /= pow(separator, 10);
+	converted /= pow(10, separator);
 	if(signal == NEGATIVE)
 	{
 		converted = -converted;
@@ -203,6 +204,14 @@ void CPU_PHG::setLog(Digit digit)
 
 void CPU_PHG::setOperator(Operator op)
 {
+	if(this-> quantity_log1 < 8)
+	{
+		for(int i = this-> quantity_log1; i < 8; i++)
+		{
+			this-> log_1[i] = ZERO;
+		}
+		quantity_log1 = 8;
+	}
 	this-> operation = op;
 };
 
@@ -238,50 +247,59 @@ void CPU_PHG::setControl(Control ctrl)
 		
 		case EQUAL:
 		{
-			if(this-> control != EQUAL) // Checking if there was no other CONTROL since the last EQUAL
-			{
-				float log1 = toFloat(this-> log_1, this-> quantity_log1, this-> decimal_separator_log1, this-> signal_log1);
-				float log2 = toFloat(this-> log_2, this-> quantity_log2, this-> decimal_separator_log2, this-> signal_log2);
-				
-				switch(this-> operation)
-				{
-					case SUM:
-						log1 += log2;
-						break;
-					
-					case SUBTRACTION:
-						log1 -= log2;
-						break;
-					
-					case DIVISION:
-						log1 /= log2;
-						break;
-					
-					case MULTIPLICATION:
-						log1 *= log2;
-						break;
-					
-					case SQUARE_ROOT:
-						if(this-> quantity_log2 > 0)
-						{
-							log2 = sqrt(log1);
-							log1 = log2;
-						}
-						else log1 = sqrt(log1);
-						break;
+			float log1 = toFloat(this-> log_1, this-> quantity_log1, this-> decimal_separator_log1, this-> signal_log1);
+			float log2 = toFloat(this-> log_2, this-> quantity_log2, this-> decimal_separator_log2, this-> signal_log2);
+
+			std::cout << "log1:" << log1 << "\n";	
+			std::cout << "log2:" << log2 << "\n";
+			std::cout << this-> operation << "\n";
 			
-					case PERCENTAGE:
-						break;		
-				}
+			switch(this-> operation)
+			{
+				case SUM:
+					log1 += log2;
+					break;
+				
+				case SUBTRACTION:
+					log1 -= log2;
+					break;
+				
+				case DIVISION:
+					log1 /= log2;
+					break;
+				
+				case MULTIPLICATION:
+					log1 *= log2;
+					break;
+				
+				case SQUARE_ROOT:
+					if(this-> quantity_log2 > 0)
+					{
+						log2 = sqrt(log1);
+						log1 = log2;
+					}
+					else log1 = sqrt(log1);
+					break;
+		
+				case PERCENTAGE:
+					if(this-> quantity_log1 < 8)
+					{
+						log1 = 0;
+					}
+					else
+					{
+						log1 /= (log2 /= 100);
+					}
+					break;		
 				
 				Digit* new_log = toDigit(log1, &this-> quantity_log1, &this-> decimal_separator_log1, &this-> signal_log1);
-				for(int i = 0; i < this-> quantity_log2; i++)
+				for(int i = this-> quantity_log1; i >= 0; i--)
 				{
 					this-> log_1[i] = new_log[i];	
 				}
 			}
 			// In any situation, EQUAL will print the result
-			for(int i = this-> quantity_log1 - 1; i >= 0; i--)
+			for(int i = this-> quantity_log1- 1; i >= 0; i++)
 			{
 				this-> display-> add(log_1[i]);
 			}
@@ -335,6 +353,8 @@ void CPU_PHG::setControl(Control ctrl)
 				this-> signal_memory = mem_signal;
 				this-> quantity_memory = mem_quantity;
 				this-> decimal_separator_memory = mem_separator;
+
+
 			}
 			break;
 		

@@ -3,21 +3,7 @@
 #include "../header/Keyboard_PHG.hpp"
 #include "../header/CalculatorError_PHG.hpp"
 
-/*
 
-	 /$$   /$$                  /$$                                       /$$
-	| $$  /$$/                 | $$                                      | $$
-	| $$ /$$/  /$$$$$$ /$$   /$| $$$$$$$  /$$$$$$  /$$$$$$  /$$$$$$  /$$$$$$$
-	| $$$$$/  /$$__  $| $$  | $| $$__  $$/$$__  $$|____  $$/$$__  $$/$$__  $$
-	| $$  $$ | $$$$$$$| $$  | $| $$  \ $| $$  \ $$ /$$$$$$| $$  \__| $$  | $$
-	| $$\  $$| $$_____| $$  | $| $$  | $| $$  | $$/$$__  $| $$     | $$  | $$
-	| $$ \  $|  $$$$$$|  $$$$$$| $$$$$$$|  $$$$$$|  $$$$$$| $$     |  $$$$$$$
-	|__/  \__/\_______/\____  $|_______/ \______/ \_______|__/      \_______/
-	                   /$$  | $$                                             
-	                  |  $$$$$$/                                             
-	                   \______/       
-					
-*/
 void Keyboard_PHG::read(Digit digit)
 {
 	if(this-> cpu)
@@ -98,9 +84,9 @@ Key* Keyboard_PHG::get(Control control)
 
 Key* Keyboard_PHG::get(Symbol symbol)
 {
-	for(Key* key : this->keys)
+	for(int i = 0; i < this-> keys_qtt; i++)
 	{
-		if( key-> getSymbol() == symbol ) return key;
+		if( this-> keys[i]-> getSymbol() == symbol ) return this-> keys[i];
 	}
 	throw new CalculatorError_PHG("Key with symbol not found!");
 };
@@ -120,11 +106,9 @@ void Keyboard_PHG::setCPU(CPU* cpu)
 
 void Keyboard_PHG::add(Key* key)
 {
-	if (key != NULL) 
-	{
-	    this-> keys.push_back(key);
-	    key-> setKeyboard(this);
-  	}
+	key-> setKeyboard(this);
+	this-> keys.push_back(key);
+	this-> keys_qtt++;
 };
 
 /*
@@ -155,7 +139,7 @@ void KeyDigit_PHG::setKeyboard(Keyboard* keyboard)
 
 void KeyDigit_PHG::press()
 {
-	if (this-> keyboard != NULL)
+	if( this-> keyboard != NULL)
 	{
 		this-> keyboard-> read(this-> digit);
 	}
