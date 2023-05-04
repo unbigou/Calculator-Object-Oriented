@@ -1,4 +1,4 @@
-#include "../header/Calculator_PHG.hpp"
+#include "./Calculator_PHG.hpp"
 
 
 Calculator_PHG::~Calculator_PHG()

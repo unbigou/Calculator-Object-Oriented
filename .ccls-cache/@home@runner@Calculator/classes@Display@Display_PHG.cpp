@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
-#include "../header/Display_PHG.hpp"
-#include "../header/CalculatorError_PHG.hpp"
+#include "./Display_PHG.hpp"
+#include "../Calculator_Error/CalculatorError_PHG.hpp"
 
 
 void Display_PHG::add(Digit digit)

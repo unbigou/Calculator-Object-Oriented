@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../interface/Calculator.hpp"
+#include "../../interface/Calculator.hpp"
 
 class Calculator_PHG: public Calculator
 {
@@ -14,6 +14,7 @@ class Calculator_PHG: public Calculator
         void setCPU(CPU*);
         void setDisplay(Display*);
         void setKeyboard(Keyboard*);
+
         CPU* getCPU();
         Display* getDisplay();
         Keyboard* getKeyboard();

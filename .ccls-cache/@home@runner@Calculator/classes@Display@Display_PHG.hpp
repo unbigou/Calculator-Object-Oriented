@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../interface/Calculator.hpp"
+#include "../../interface/Calculator.hpp"
 
 class Display_PHG: public Display
 {

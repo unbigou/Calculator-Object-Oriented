@@ -6,7 +6,7 @@ enum Operator {SUM, SUBTRACTION, DIVISION, MULTIPLICATION, SQUARE_ROOT, PERCENTA
 enum Control {EQUAL, DECIMAL_SEPARATOR, ON_CLEAR_ERROR, OFF, MEMORY_READ_CLEAR, MEMORY_SUM, MEMORY_SUBTRACTION};
 
 typedef char const* Symbol;
- 
+
 class Display
 {
     public:
@@ -16,14 +16,17 @@ class Display
         virtual void clear() = 0;
 };
 
+
 class CPU
 {
     public:
         virtual void setDisplay(Display*) = 0;
-        virtual void setLog(Digit) = 0;
-        virtual void setOperator(Operator) = 0;
-        virtual void setControl(Control) = 0;
+
+        virtual void receive(Digit) = 0;
+        virtual void receive(Operator) = 0;
+        virtual void receive(Control) = 0;
 };
+
 
 class Key;
 
@@ -31,15 +34,19 @@ class Keyboard
 {
     public:
         virtual void setCPU(CPU*) = 0;
-        virtual void read(Digit) = 0;
-        virtual void read(Operator) = 0;
-        virtual void read(Control) = 0;
-        virtual Key* get(Digit) = 0;
-        virtual Key* get(Operator) = 0;        
-        virtual Key* get(Control) = 0;
-        virtual Key* get(Symbol) = 0;
+
+        virtual void receive(Digit) = 0;
+        virtual void receive(Operator) = 0;
+        virtual void receive(Control) = 0;
+
+        virtual Key* getKey(Digit) = 0;
+        virtual Key* getKey(Operator) = 0;        
+        virtual Key* getKey(Control) = 0;
+        virtual Key* getKey(Symbol) = 0;
+
 		virtual void add(Key*) = 0;
 };
+
 
 class Key
 {
@@ -49,23 +56,27 @@ class Key
         virtual void setKeyboard(Keyboard*) = 0;
 };
 
+
 class KeyDigit: public Key
 {
     public:
-        virtual Digit get() = 0;
+        virtual Digit getDigit() = 0;
 };
+
 
 class KeyOperator: public Key
 {
     public:
-        virtual Operator get() = 0;
+        virtual Operator getOperator() = 0;
 };
+
 
 class KeyControl: public Key
 {
     public:
-        virtual Control get() = 0;
+        virtual Control getControl() = 0;
 };
+
 
 class Calculator
 {
@@ -77,6 +88,7 @@ class Calculator
         virtual Display* getDisplay() = 0;
         virtual Keyboard* getKeyboard() = 0;
 };
+
 
 class CalculatorError
 {

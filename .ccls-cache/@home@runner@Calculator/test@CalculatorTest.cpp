@@ -3,6 +3,15 @@
 #include <iostream>
 #include <vector>
 
+#include "../classes/CPU/CPU_PHG.hpp"
+#include "../classes/Display/Display_PHG.hpp"
+#include "../classes/Keyboard/Keyboard_PHG.hpp"
+#include "../classes/Keyboard/KeyOperator/KeyOperator.hpp"
+#include "../classes/Keyboard/KeyDigit/KeyDigit.hpp"
+#include "../classes/Keyboard/KeyControl/KeyControl.hpp"
+#include "../classes/Calculator/Calculator_PHG.hpp"
+#include "../classes/Calculator_Error/CalculatorError_PHG.hpp"
+
 /** Implementação das classes de teste
 ---------------------------------------------*/
 TestCalculatorBase::TestCalculatorBase(Calculator *calculator) 
@@ -14,13 +23,13 @@ TestCalculatorBase::TestCalculatorBase(Calculator *calculator)
 void TestCalculatorBase::setup() 
 {
 	std::cout << "TEST STARTED\n" << this->getName() << std::endl;
-	calculator-> getKeyboard()-> get(ON_CLEAR_ERROR)-> press();
+	calculator-> getKeyboard()-> getKey(ON_CLEAR_ERROR)-> press();
 }
 
 
 void TestCalculatorBase::tearDown() 
 {
-	calculator-> getKeyboard()-> get(OFF)-> press();
+	calculator-> getKeyboard()-> getKey(OFF)-> press();
 	std::cout << "\nTEST ENDED" << std::endl;
 }
 
@@ -42,7 +51,7 @@ void TestCalculator1::run()
 	Symbol test[] = {"1", "+", "2", "="};
 	for(Symbol s : test)
 	{
-		calculator-> getKeyboard()-> get(s)-> press();
+		calculator-> getKeyboard()-> getKey(s)-> press();
 	}
 }
 
@@ -61,12 +70,12 @@ TestCalculator2::TestCalculator2(Calculator* calculator) : TestCalculatorBase(ca
 
 void TestCalculator2::run() 
 {
-	calculator-> getKeyboard()-> get(DECIMAL_SEPARATOR)-> press();
-	calculator-> getKeyboard()-> get(ONE)-> press();
-	calculator-> getKeyboard()-> get(SUM)-> press();
-	calculator-> getKeyboard()-> get(DECIMAL_SEPARATOR)-> press();
-	calculator-> getKeyboard()-> get(ONE)-> press();
-	calculator-> getKeyboard()-> get(EQUAL)-> press();
+	calculator-> getKeyboard()-> getKey(DECIMAL_SEPARATOR)-> press();
+	calculator-> getKeyboard()-> getKey(ONE)->				 press();
+	calculator-> getKeyboard()-> getKey(SUM)->				 press();
+	calculator-> getKeyboard()-> getKey(DECIMAL_SEPARATOR)-> press();
+	calculator-> getKeyboard()-> getKey(ONE)->				 press();
+	calculator-> getKeyboard()-> getKey(EQUAL)->			 press();
 }
 
 
@@ -78,36 +87,30 @@ const char* TestCalculator2::getName()
 
 void test1(Calculator* calculator) 
 {
-	calculator-> getKeyboard()-> get(ONE)-> 	press();
-	calculator-> getKeyboard()-> get(TWO)-> 	press();
-	calculator-> getKeyboard()-> get(THREE)-> 	press();
-	calculator-> getKeyboard()-> get(SUM)-> 	press();
-	calculator-> getKeyboard()-> get(FOUR)-> 	press();
-	calculator-> getKeyboard()-> get(FIVE)-> 	press();
-	calculator-> getKeyboard()-> get(SIX)-> 	press();
-	calculator-> getKeyboard()-> get(EQUAL)-> 	press();
-	calculator-> getKeyboard()-> get(EQUAL)-> 	press();
-	calculator-> getKeyboard()-> get(EQUAL)-> 	press();
-	calculator-> getKeyboard()-> get(EQUAL)-> 	press();
+	calculator-> getKeyboard()-> getKey(ONE)-> 		press();
+	calculator-> getKeyboard()-> getKey(TWO)-> 		press();
+	calculator-> getKeyboard()-> getKey(THREE)-> 	press();
+	calculator-> getKeyboard()-> getKey(SUM)-> 		press();
+	calculator-> getKeyboard()-> getKey(FOUR)-> 	press();
+	calculator-> getKeyboard()-> getKey(FIVE)-> 	press();
+	calculator-> getKeyboard()-> getKey(SIX)-> 		press();
+	calculator-> getKeyboard()-> getKey(EQUAL)-> 	press();
+	calculator-> getKeyboard()-> getKey(EQUAL)-> 	press();
+	calculator-> getKeyboard()-> getKey(EQUAL)-> 	press();
+	calculator-> getKeyboard()-> getKey(EQUAL)-> 	press();
 }
 
 
 void test2(Calculator* calculator) 
 {	
-	calculator-> getKeyboard()-> get(DECIMAL_SEPARATOR)-> 	press();
-	calculator-> getKeyboard()-> get(ONE)->               	press();
-	calculator-> getKeyboard()-> get(SUM)->               	press();
-	calculator-> getKeyboard()-> get(DECIMAL_SEPARATOR)-> 	press();
-	calculator-> getKeyboard()-> get(ONE)->               	press();
-	calculator-> getKeyboard()-> get(EQUAL)->             	press();
+	calculator-> getKeyboard()-> getKey(DECIMAL_SEPARATOR)-> 	press();
+	calculator-> getKeyboard()-> getKey(ONE)->               	press();
+	calculator-> getKeyboard()-> getKey(SUM)->               	press();
+	calculator-> getKeyboard()-> getKey(DECIMAL_SEPARATOR)-> 	press();
+	calculator-> getKeyboard()-> getKey(ONE)->               	press();
+	calculator-> getKeyboard()-> getKey(EQUAL)->             	press();
 }
 
-
-#include "../header/Calculator_PHG.hpp"
-#include "../header/CalculatorError_PHG.hpp"
-#include "../header/CPU_PHG.hpp"
-#include "../header/Display_PHG.hpp"
-#include "../header/Keyboard_PHG.hpp"
 
 Calculator* buildCalculator() 
 {

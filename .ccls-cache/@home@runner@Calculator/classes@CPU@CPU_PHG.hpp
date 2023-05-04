@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../interface/Calculator.hpp"
+#include "../../interface/Calculator.hpp"
 
 class CPU_PHG: public CPU
 {
@@ -28,7 +28,7 @@ class CPU_PHG: public CPU
         ~CPU_PHG();
 
 		void setDisplay(Display*);
-		void setLog(Digit);
-		void setOperator(Operator);
-		void setControl(Control);
+		void receive(Digit);
+		void receive(Operator);
+		void receive(Control);
 };

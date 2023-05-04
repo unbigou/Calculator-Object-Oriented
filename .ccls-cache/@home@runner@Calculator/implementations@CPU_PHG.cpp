@@ -7,26 +7,16 @@
 
 Digit numbers[10] = {ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE};
 
-// =============================================================================== //
-// ============================== Support Function =============================== //
-// =============================================================================== //
-/**
-*	This function will return the first algarism on the given number.
-*/
 int firstNum(int value)
 {
-	if(value > 10)
+	if(value >= 10)
 	{
 		value /= 10;
-		value = firstNum(value);
+		return firstNum(value);
 	}
 	return value;
 }
 
-/**
-*	This functions moves the current digit to the following one.
-*	It returns if the current digit was nine.
-*/
 bool nextDigit(Digit* digit)
 {
 	if(*digit != NINE)
@@ -38,11 +28,6 @@ bool nextDigit(Digit* digit)
 	return true;
 }
 
-/**
-*	This function, treating digits as numbers, will add one to the final
-*	and repeat the process if the sum resulted in 10 but to the previous 
-*	digit.
-*/
 void addOne(Digit** digit, int size)
 {
 	if(nextDigit(digit[size--]))
@@ -51,9 +36,6 @@ void addOne(Digit** digit, int size)
 	}
 }
 
-/**
-*	Converts a digit to a float
-*/
 float toFloat(Digit* value, int quantity, int separator, Signal signal)
 {
 	float converted = 0;
@@ -70,11 +52,15 @@ float toFloat(Digit* value, int quantity, int separator, Signal signal)
 	return converted;
 };
 
-
 Digit* toDigit(float value, int* quantity, int* separator, Signal* signal)
 {
 	// Making sure that all values are empty
 	*quantity = 0; *separator = 0; *signal = POSITIVE;
+	Digit* converted = (Digit*) malloc(sizeof(Digit) * 8);
+	for(int i = 0; i < 8; i++)
+	{
+		converted[i] = ZERO;	
+	}
 	// Saving the signal them turning it positive if needed
 	if(value < 0)
 	{
@@ -82,20 +68,20 @@ Digit* toDigit(float value, int* quantity, int* separator, Signal* signal)
 		*signal = NEGATIVE;
 	}
 
-	Digit* converted;
 	int value_i = (int) value;
 	float value_f = value - value_i;
 	// Converting the integer part of the number
-	while(*quantity < 8)
+	while((*quantity) < 8)
 	{
 		if(value_i != 0)
 		{
 			converted[*quantity] = numbers[firstNum(value_i)];
-			value_i /= 10;
-			*quantity++;
-			*separator++;
+			(*quantity)++;
+			(*separator)++;
 		}
 		else break;
+		
+		value_i /= 10;
 	}
 	// Converting the float part of the number
 	int aux = value;
@@ -120,18 +106,6 @@ Digit* toDigit(float value, int* quantity, int* separator, Signal* signal)
 	return converted;
 }
 
-/*
-	
-	  /$$$$$$ /$$$$$$$ /$$   /$$
-	 /$$__  $| $$__  $| $$  | $$
-	| $$  \__| $$  \ $| $$  | $$
-	| $$     | $$$$$$$| $$  | $$
-	| $$     | $$____/| $$  | $$
-	| $$    $| $$     | $$  | $$
-	|  $$$$$$| $$     |  $$$$$$/
-	 \______/|__/      \______/ 
-	                                                        
-*/
 CPU_PHG::CPU_PHG()
 {
 	for(int i = 0; i < 8; i++)
@@ -247,29 +221,43 @@ void CPU_PHG::setControl(Control ctrl)
 		
 		case EQUAL:
 		{
+			if(this-> quantity_log2 < 8)
+			{
+				for(int i = this-> quantity_log2; i < 8; i++) this-> setLog(ZERO);
+			}
+			
 			float log1 = toFloat(this-> log_1, this-> quantity_log1, this-> decimal_separator_log1, this-> signal_log1);
 			float log2 = toFloat(this-> log_2, this-> quantity_log2, this-> decimal_separator_log2, this-> signal_log2);
 
-			std::cout << "log1:" << log1 << "\n";	
-			std::cout << "log2:" << log2 << "\n";
-			std::cout << this-> operation << "\n";
+			for(int i = 0 ; i < this-> quantity_log1; i++)
+			{
+				this-> display-> add(log_1[i]);
+				if(i == this-> decimal_separator_log1 || this-> decimal_separator_log1 == 0)
+				{
+					this-> display-> addDecimalSeparator();
+				}
+			}
 			
 			switch(this-> operation)
 			{
 				case SUM:
 					log1 += log2;
+					std::cout << " + ";
 					break;
 				
 				case SUBTRACTION:
 					log1 -= log2;
+					std::cout << " - ";
 					break;
 				
 				case DIVISION:
 					log1 /= log2;
+					std::cout << " / ";
 					break;
 				
 				case MULTIPLICATION:
 					log1 *= log2;
+					std::cout << " x ";
 					break;
 				
 				case SQUARE_ROOT:
@@ -291,16 +279,31 @@ void CPU_PHG::setControl(Control ctrl)
 						log1 /= (log2 /= 100);
 					}
 					break;		
-				
-				Digit* new_log = toDigit(log1, &this-> quantity_log1, &this-> decimal_separator_log1, &this-> signal_log1);
-				for(int i = this-> quantity_log1; i >= 0; i--)
+			}
+			
+			for(int i = 0; i < this-> quantity_log2; i++)
+			{
+				this-> display-> add(log_2[i]);
+				if(i == this-> decimal_separator_log1)
 				{
-					this-> log_1[i] = new_log[i];	
+					this-> display-> addDecimalSeparator();
 				}
 			}
-			// In any situation, EQUAL will print the result
-			for(int i = this-> quantity_log1- 1; i >= 0; i++)
+			
+			Digit* new_log = toDigit(log1, &this-> quantity_log1, &this-> decimal_separator_log1, &this-> signal_log1);
+			for(int i = 0; i < 7; i++)
 			{
+				this-> log_1[i] = new_log[i];
+			}
+			
+			// In any situation, EQUAL will print the result
+			std::cout << " = ";
+			for(int i = this-> quantity_log1-1; i >= 0; i--)
+			{
+				if(i == this-> decimal_separator_log1)
+				{
+					this-> display-> addDecimalSeparator();
+				}
 				this-> display-> add(log_1[i]);
 			}
 			break;
