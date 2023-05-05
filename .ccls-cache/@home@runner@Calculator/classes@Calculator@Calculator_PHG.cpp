@@ -9,7 +9,7 @@ Calculator_PHG::~Calculator_PHG()
 }
 
 
-void Calculator_PHG::setCPU(CPU* cpu)
+void Calculator_PHG::setCpu(Cpu* cpu)
 {
 	this-> cpu = cpu;
 }
@@ -27,7 +27,7 @@ void Calculator_PHG::setKeyboard(Keyboard* keyboard)
 }
 
 
-CPU* Calculator_PHG::getCPU()
+Cpu* Calculator_PHG::getCpu()
 {
 	return this-> cpu;
 }

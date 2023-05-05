@@ -5,17 +5,17 @@
 class Calculator_PHG: public Calculator
 {
     private:
-        CPU* cpu;
+        Cpu* cpu;
         Display* display;
         Keyboard* keyboard;
     public:
 		~Calculator_PHG();
 
-        void setCPU(CPU*);
+        void setCpu(Cpu*);
         void setDisplay(Display*);
         void setKeyboard(Keyboard*);
 
-        CPU* getCPU();
+        Cpu* getCpu();
         Display* getDisplay();
         Keyboard* getKeyboard();
 };

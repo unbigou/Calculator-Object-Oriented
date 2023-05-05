@@ -1,16 +1,16 @@
-#include "CalculatorTest.hpp"
-#include <functional>
-#include <iostream>
-#include <vector>
+// #include "CalculatorTest.hpp"
+// #include <functional>
+// #include <iostream>
+// #include <vector>
 
-#include "../classes/CPU/CPU_PHG.hpp"
-#include "../classes/Display/Display_PHG.hpp"
-#include "../classes/Keyboard/Keyboard_PHG.hpp"
-#include "../classes/Keyboard/KeyOperator/KeyOperator.hpp"
-#include "../classes/Keyboard/KeyDigit/KeyDigit.hpp"
-#include "../classes/Keyboard/KeyControl/KeyControl.hpp"
-#include "../classes/Calculator/Calculator_PHG.hpp"
-#include "../classes/Calculator_Error/CalculatorError_PHG.hpp"
+// #include "../classes/CPU/CPU_PHG.hpp"
+// #include "../classes/Display/Display_PHG.hpp"
+// #include "../classes/Keyboard/Keyboard_PHG.hpp"
+// #include "../classes/Keyboard/KeyOperator/KeyOperator.hpp"
+// #include "../classes/Keyboard/KeyDigit/KeyDigit.hpp"
+// #include "../classes/Keyboard/KeyControl/KeyControl.hpp"
+// #include "../classes/Calculator/Calculator_PHG.hpp"
+// #include "../classes/Calculator_Error/CalculatorError_PHG.hpp"
 
 /** Implementação das classes de teste
 ---------------------------------------------*/
@@ -48,7 +48,7 @@ void TestCalculator1::setup()
 
 void TestCalculator1::run() 
 {
-	Symbol test[] = {"1", "+", "2", "="};
+	Symbol test[] = {"1", "2", "+", "2", "3", "="};
 	for(Symbol s : test)
 	{
 		calculator-> getKeyboard()-> getKey(s)-> press();
@@ -70,10 +70,8 @@ TestCalculator2::TestCalculator2(Calculator* calculator) : TestCalculatorBase(ca
 
 void TestCalculator2::run() 
 {
-	calculator-> getKeyboard()-> getKey(DECIMAL_SEPARATOR)-> press();
 	calculator-> getKeyboard()-> getKey(ONE)->				 press();
 	calculator-> getKeyboard()-> getKey(SUM)->				 press();
-	calculator-> getKeyboard()-> getKey(DECIMAL_SEPARATOR)-> press();
 	calculator-> getKeyboard()-> getKey(ONE)->				 press();
 	calculator-> getKeyboard()-> getKey(EQUAL)->			 press();
 }
@@ -81,7 +79,7 @@ void TestCalculator2::run()
 
 const char* TestCalculator2::getName() 
 {
-	return " ,1 + ,1 =";
+	return "1 + 1 =";
 }
 
 
@@ -95,20 +93,6 @@ void test1(Calculator* calculator)
 	calculator-> getKeyboard()-> getKey(FIVE)-> 	press();
 	calculator-> getKeyboard()-> getKey(SIX)-> 		press();
 	calculator-> getKeyboard()-> getKey(EQUAL)-> 	press();
-	calculator-> getKeyboard()-> getKey(EQUAL)-> 	press();
-	calculator-> getKeyboard()-> getKey(EQUAL)-> 	press();
-	calculator-> getKeyboard()-> getKey(EQUAL)-> 	press();
-}
-
-
-void test2(Calculator* calculator) 
-{	
-	calculator-> getKeyboard()-> getKey(DECIMAL_SEPARATOR)-> 	press();
-	calculator-> getKeyboard()-> getKey(ONE)->               	press();
-	calculator-> getKeyboard()-> getKey(SUM)->               	press();
-	calculator-> getKeyboard()-> getKey(DECIMAL_SEPARATOR)-> 	press();
-	calculator-> getKeyboard()-> getKey(ONE)->               	press();
-	calculator-> getKeyboard()-> getKey(EQUAL)->             	press();
 }
 
 
@@ -140,7 +124,6 @@ Calculator* buildCalculator()
   KeyOperator *keyPercentage 		= new KeyOperator_PHG("%", PERCENTAGE);
 
   KeyControl *keyEqual 				= new KeyControl_PHG("=", EQUAL);
-  KeyControl *keyDecimalSeparator 	= new KeyControl_PHG(".", DECIMAL_SEPARATOR);
   KeyControl *keyClearError 		= new KeyControl_PHG("ON_CE", ON_CLEAR_ERROR);
   KeyControl *keyOff 				= new KeyControl_PHG("OFF", OFF);
   KeyControl *keyMemoryReadClear 	= new KeyControl_PHG("MRC", MEMORY_READ_CLEAR);
@@ -168,7 +151,6 @@ Calculator* buildCalculator()
 
   keyboard-> add(keyEqual);
   keyboard-> add(keyClearError);
-  keyboard-> add(keyDecimalSeparator);
   keyboard-> add(keyOff);
   keyboard-> add(keyMemoryReadClear);
   keyboard-> add(keyMemorySum);
@@ -195,7 +177,7 @@ void mainTest()
 		std::cout << "Building calculator..." << std::endl;
 		Calculator* calculator = buildCalculator();
 		
-		std::vector<Test *> calculatorTests;
+		std::vector<Test*> calculatorTests;
 		calculatorTests.push_back(new TestCalculator1(calculator));
 		calculatorTests.push_back(new TestCalculator2(calculator));
 		

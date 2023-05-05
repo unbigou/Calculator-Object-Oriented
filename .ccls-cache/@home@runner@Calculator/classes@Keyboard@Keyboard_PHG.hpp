@@ -6,13 +6,13 @@
 class Keyboard_PHG: public Keyboard 
 {
     private:    
-        CPU* cpu;
+        Cpu* cpu;
 		std::vector<Key*> keys;
 		int keys_qtt = 0;
     public:
 		Keyboard_PHG();
 
-        void setCPU(CPU*);
+        void setCpu(Cpu*);
 		void add(Key*);
 
         void receive(Digit);

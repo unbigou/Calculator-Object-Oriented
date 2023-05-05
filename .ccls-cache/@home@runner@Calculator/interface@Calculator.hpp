@@ -3,7 +3,7 @@
 enum Digit {ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE};
 enum Signal {POSITIVE, NEGATIVE};
 enum Operator {SUM, SUBTRACTION, DIVISION, MULTIPLICATION, SQUARE_ROOT, PERCENTAGE};
-enum Control {EQUAL, DECIMAL_SEPARATOR, ON_CLEAR_ERROR, OFF, MEMORY_READ_CLEAR, MEMORY_SUM, MEMORY_SUBTRACTION};
+enum Control {EQUAL, ON_CLEAR_ERROR, OFF, MEMORY_READ_CLEAR, MEMORY_SUM, MEMORY_SUBTRACTION};
 
 typedef char const* Symbol;
 
@@ -17,7 +17,7 @@ class Display
 };
 
 
-class CPU
+class Cpu
 {
     public:
         virtual void setDisplay(Display*) = 0;
@@ -33,7 +33,7 @@ class Key;
 class Keyboard
 {
     public:
-        virtual void setCPU(CPU*) = 0;
+        virtual void setCpu(Cpu*) = 0;
 
         virtual void receive(Digit) = 0;
         virtual void receive(Operator) = 0;
@@ -81,10 +81,10 @@ class KeyControl: public Key
 class Calculator
 {
     public:
-        virtual void setCPU(CPU*) = 0;
+        virtual void setCpu(Cpu*) = 0;
         virtual void setDisplay(Display*) = 0;
         virtual void setKeyboard(Keyboard*) = 0;
-        virtual CPU* getCPU() = 0;
+        virtual Cpu* getCpu() = 0;
         virtual Display* getDisplay() = 0;
         virtual Keyboard* getKeyboard() = 0;
 };

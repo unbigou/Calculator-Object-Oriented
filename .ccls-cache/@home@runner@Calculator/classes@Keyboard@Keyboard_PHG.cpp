@@ -98,7 +98,7 @@ Keyboard_PHG::Keyboard_PHG()
 }
 
 
-void Keyboard_PHG::setCPU(CPU* cpu)
+void Keyboard_PHG::setCpu(Cpu* cpu)
 {
 	this-> cpu = cpu;
 };

@@ -1,27 +1,27 @@
 #pragma once
 
+#include <vector>
 #include "../../interface/Calculator.hpp"
 
-class CPU_PHG: public CPU
+using namespace std;
+
+class CPU_PHG: public Cpu
 {
     private:
 		Display* display;
         Operator operation;
 		Control control;
 
-        Digit log_1[8];
-        Digit log_2[8];
-        Digit memory[8];
+		bool monitor;
+		Control last_control;
+
+        vector<Digit> log_1;
+        vector<Digit> log_2;
+        vector<Digit> memory;
+
         Signal signal_log1;
         Signal signal_log2;
         Signal signal_memory;
-
-        int quantity_log1;
-        int quantity_log2;
-        int quantity_memory;
-        int decimal_separator_log1;    
-        int decimal_separator_log2;
-        int decimal_separator_memory;
 
     public:
         CPU_PHG();
